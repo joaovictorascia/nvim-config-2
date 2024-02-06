@@ -1,3 +1,5 @@
+require('statusline')
+
 -- These are my vim options
 vim.o.number = true
 vim.o.ignorecase = true
@@ -13,53 +15,14 @@ vim.o.showmode = false
 vim.o.termguicolors = true
 -- Apply themes here
 vim.cmd("colorscheme gruvbox")
+-- Allows VIM to access clipboard
+vim.o.clipboard = 'unnamedplus'
 
-local modes = {
-	["n"] = "NORMAL",
-	["no"] = "NORMAL",
-	["v"] = "VISUAL",
-	["V"] = "VISUAL LINE",
-	[""] = "VISUAL BLOCK",
-	["s"] = "SELECT",
-	["S"] = "SELECT LINE",
-	[""] = "SELECT BLOCK",
-	["i"] = "INSERT",
-	["ic"] = "INSERT",
-	["R"] = "REPLACE",
-	["Rv"] = "VISUAL REPLACE",
-	["c"] = "COMMAND",
-	["cv"] = "VIM EX",
-	["ce"] = "EX",
-	["r"] = "PROMPT",
-	["rm"] = "MOAR",
-	["r?"] = "CONFIRM",
-	["!"] = "SHELL",
-	["t"] = "TERMINAL",
-}
 
-function getMode()
-	local currentMode = vim.api.nvim_get_mode()
-	return modes[currentMode.mode]
-end
-
+-- My Custom Hightlights
 vim.cmd([[
-	hi StatuslineInsertAccent guifg=#8cc85f guibg=Green gui=bold
-	hi StatuslineVisualAccent guifg=White guibg=Yellow gui=bold
-	hi Pussy guifg=White guibg=Black 
+	hi StatuslineInsertAccent guifg=White guibg=Green gui=bold
+	hi StatuslineVisualAccent guifg=Black guibg=Yellow gui=bold
+	hi StatuslineCmdlineAccent guifg=White guibg=#4169E1 gui=bold
 ]])
-
-vim.api.nvim_create_autocmd({"ModeChanged", "BufEnter"}, {
-	pattern = {"*"},
-	callback = function()
-		local Statusline = table.concat {
-			"%#StatuslineInsertAccent# ",
-			getMode() .. " ",
-			"%#Statusline# ",
-			"pussy fresh",
-		}
-		vim.o.statusline = Statusline
-	end
-})
-
-
 
